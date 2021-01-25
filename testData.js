@@ -80,7 +80,6 @@ let message =  {
       emojis: [GuildEmojiManager]
     },
     messages:  {
-      cacheType: [class LimitedCollection extends Collection],
       cache: [LimitedCollection [Map]],
       channel: [Circular *1]
     },
@@ -107,7 +106,7 @@ let message =  {
   tts: false,
   nonce: null,
   embeds: [
-    MessageEmbed {
+    {
       type: 'rich',
       title: null,
       description: null,
@@ -128,7 +127,6 @@ let message =  {
   createdTimestamp: 1611437106693,
   editedTimestamp: 0,
   reactions:  {
-    cacheType: [class Collection extends Collection],
     cache:  {},
     message: [Circular *2]
   },
