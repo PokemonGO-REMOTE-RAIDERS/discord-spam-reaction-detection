@@ -4,9 +4,6 @@
  */
 const dotenv = require('dotenv');
 dotenv.config();
-
-const TOKEN = process.env.TOKEN;
-const PREFIX = process.env.PREFIX;
 const botName = process.env.BOTNAME;
 
 
@@ -17,8 +14,18 @@ const botName = process.env.BOTNAME;
  */
 const Discord = require('discord.js');
 const client = new Discord.Client();
+
+
+
 client.once('ready', () => {
-	console.log('Ready!');
+  console.log('Ready!');
+
+  client.user.setActivity('for Auto-Clickers.', { type: 'WATCHING' });
+  
+  const logChannel = client.channels.cache.get(process.env.LOG);
+  const botReadyMessage = new Discord.MessageEmbed().setTitle(`${botName} is online!`);
+  logChannel.send({ embed: botReadyMessage });
+
 });
 
 
@@ -26,16 +33,15 @@ client.once('ready', () => {
  * 
  * Process Pokenav messages
  */
-client.on('message', message => {
+client.on('message', (message) => {
 
 
-  // Only process PokeNav posts. 
+  // Only process PokeNav posts.   
   if(message.author.username === 'PokeNav' && message.author.bot) {
-    
 
     // Use Discord.js Colletor to watch the reactions. 
     const filter = (reaction) => { return true };
-    const collector = message.createReactionCollector(filter, { time: 15000, dispose: true });
+    const collector = message.createReactionCollector(filter, { time: 8000, dispose: true });
 
 
     // We store all reactions in this array. 
@@ -52,7 +58,6 @@ client.on('message', message => {
 
     // After the time expires on the reaction poll we process.
     collector.on('end', collected => {
-      
 
       // Count up all of the reactions per ßuser. 
       let counts = {};
@@ -63,11 +68,11 @@ client.on('message', message => {
       let inlineFields = [];
       Object.keys(counts).map(function(key, index) {
         
-        let loggedUser = message.guild.members.get(key);
+        let loggedUser = message.channel.guild.members.cache.get(key);
         
         inlineFields[index] = {
-            name: `@${loggedUser.username}`,
-            value: `Reactions: ${counts[key]}  UserID: ${loggedUser.id}`,
+            name: `@${loggedUser.user.username}`,
+            value: `${loggedUser.user.id}\nReactions: ${counts[key]}\n`,
             inline: true,
         }
 
@@ -91,10 +96,8 @@ client.on('message', message => {
 
       
       // Send the log to the #reaction-spam-log channel.
-      //const devLog  = '803320727972347976';
-      const prodLog = '803441337424412702';
-      const channel = client.channels.cache.get(prodLog);
-      channel.send({ embed: logEmbedData });
+      const logChannel = client.channels.cache.get(process.env.LOG);
+      logChannel.send({ embed: logEmbedData });
 
 
     });
@@ -104,4 +107,4 @@ client.on('message', message => {
 });
 
 
-client.login(TOKEN);
+client.login(process.env.TOKEN);
