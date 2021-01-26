@@ -32,7 +32,7 @@ client.on('message', message => {
   // Only process PokeNav posts. 
   if(message.author.username === 'PokeNav' && message.author.bot) {
     
-    
+
     // Use Discord.js Colletor to watch the reactions. 
     const filter = (reaction) => { return true };
     const collector = message.createReactionCollector(filter, { time: 15000, dispose: true });
@@ -63,7 +63,7 @@ client.on('message', message => {
       let inlineFields = [];
       Object.keys(counts).map(function(key, index) {
         
-        const loggedUser = client.user.cache.get(key);
+        let loggedUser = message.guild.members.get(key);
         
         inlineFields[index] = {
             name: `@${loggedUser.username}`,
