@@ -44,7 +44,7 @@ client.on('message', message => {
     collector.on('collect', (reaction, user) => {
 
       // Add the new user to the reaction array. 
-      reactionsCollection[count] = user.username+' - '+ user.id;
+      reactionsCollection[count] = user.id;
       count++;
 
     });
@@ -54,7 +54,7 @@ client.on('message', message => {
     collector.on('end', collected => {
       
 
-      // Count up all of the reactions per user. 
+      // Count up all of the reactions per ßuser. 
       let counts = {};
       reactionsCollection.forEach((index) => counts[index] = (counts[index] || 0) + 1 );
 
@@ -62,10 +62,12 @@ client.on('message', message => {
       // Build the Inline Fields that show the Users name and how many reactions they made.
       let inlineFields = [];
       Object.keys(counts).map(function(key, index) {
-
+        
+        const loggedUser = client.user.cache.get(key);
+        
         inlineFields[index] = {
-            name: `@${key}`,
-            value: `Reactions: ${counts[key]}`,
+            name: `@${loggedUser.username}`,
+            value: `Reactions: ${counts[key]}  UserID: ${loggedUser.id}`,
             inline: true,
         }
 
@@ -74,7 +76,7 @@ client.on('message', message => {
 
       // Build the Embed Data for the log. 
       const logEmbedData = {
-          color: '#0000FF',
+          color: '#47b582',
           title: 'New Reaction Log',
           author: {
               name: botName,
@@ -88,9 +90,12 @@ client.on('message', message => {
       };
 
       
-      // Send the log to the #reaction-spam-log channel. 
-      const channel = client.channels.cache.get('803441337424412702');
+      // Send the log to the #reaction-spam-log channel.
+      //const devLog  = '803320727972347976';
+      const prodLog = '803441337424412702';
+      const channel = client.channels.cache.get(devLog);
       channel.send({ embed: logEmbedData });
+
 
     });
 
