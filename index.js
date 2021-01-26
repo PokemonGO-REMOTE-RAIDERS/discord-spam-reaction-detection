@@ -93,7 +93,7 @@ client.on('message', message => {
       // Send the log to the #reaction-spam-log channel.
       //const devLog  = '803320727972347976';
       const prodLog = '803441337424412702';
-      const channel = client.channels.cache.get(devLog);
+      const channel = client.channels.cache.get(prodLog);
       channel.send({ embed: logEmbedData });
 
 
