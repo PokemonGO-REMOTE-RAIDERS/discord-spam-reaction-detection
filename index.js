@@ -41,7 +41,7 @@ client.on('message', (message) => {
 
     // Use Discord.js Colletor to watch the reactions. 
     const filter = (reaction) => { return true };
-    const collector = message.createReactionCollector(filter, { time: 8000, dispose: true });
+    const collector = message.createReactionCollector(filter, { time: 15000, dispose: true });
 
 
     // We store all reactions in this array. 
@@ -70,12 +70,12 @@ client.on('message', (message) => {
         
         let loggedUser = message.channel.guild.members.cache.get(key);
         
-        inlineFields[index] = {
-            name: `@${loggedUser.user.username}`,
-            value: `${loggedUser.user.id}\nReactions: ${counts[key]}\n`,
-            inline: true,
-        }
-
+          inlineFields[index] = {
+              name: `@${loggedUser.user.username}`,
+              value: `${loggedUser.user.id}\nReactions: ${counts[key]}\n  `,
+              inline: true,
+          }
+        
       });
 
 
