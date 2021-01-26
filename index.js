@@ -44,7 +44,7 @@ client.on('message', message => {
     collector.on('collect', (reaction, user) => {
 
       // Add the new user to the reaction array. 
-      reactionsCollection[count] = user.username;
+      reactionsCollection[count] = user.username+' - '+ user.id;
       count++;
 
     });
@@ -74,7 +74,7 @@ client.on('message', message => {
 
       // Build the Embed Data for the log. 
       const logEmbedData = {
-          color: message.embeds.color,
+          color: '#0000FF',
           title: 'New Reaction Log',
           author: {
               name: botName,
@@ -89,7 +89,7 @@ client.on('message', message => {
 
       
       // Send the log to the #reaction-spam-log channel. 
-      const channel = client.channels.cache.get('803320727972347976');
+      const channel = client.channels.cache.get('803441337424412702');
       channel.send({ embed: logEmbedData });
 
     });
