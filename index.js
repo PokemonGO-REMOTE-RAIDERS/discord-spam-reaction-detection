@@ -1,5 +1,13 @@
 /**
  * 
+ * Spam Reaction Detection
+ * Version: 1.1
+ * 
+ * Author: Nick Hempsey
+ * Author URL: https://elementmarketingcompany.com
+ * 
+ * 
+ * 
  * Configuration File
  */
 const dotenv = require('dotenv');
@@ -20,6 +28,8 @@ const client = new Discord.Client();
 client.once('ready', () => {
   console.log('Ready!');
 
+  
+
   client.user.setActivity('for Auto-Clickers.', { type: 'WATCHING' });
   
   const logChannel = client.channels.cache.get(process.env.LOG);
@@ -37,7 +47,8 @@ client.on('message', (message) => {
 
 
   // Only process PokeNav posts.   
-  if(message.author.username === 'PokeNav' && message.author.bot) {
+  if( message.author.username === 'PokeNav' && message.author.bot && process.env.GUILD === message.channel.guild.id )
+  {
 
     // Use Discord.js Colletor to watch the reactions. 
     const filter = (reaction) => { return true };
@@ -59,45 +70,92 @@ client.on('message', (message) => {
     // After the time expires on the reaction poll we process.
     collector.on('end', collected => {
 
-      // Count up all of the reactions per ßuser. 
+      // Count up all of the reactions per user. 
       let counts = {};
       reactionsCollection.forEach((index) => counts[index] = (counts[index] || 0) + 1 );
 
 
-      // Build the Inline Fields that show the Users name and how many reactions they made.
-      let inlineFields = [];
+      // Establish the offenders list. 
+      let offendersList = [];
+      let i = 0;
+      let totalReacts = 0;
+
+      // Loop through the reactionsCollection
       Object.keys(counts).map(function(key, index) {
         
-        let loggedUser = message.channel.guild.members.cache.get(key);
-        
-          inlineFields[index] = {
-              name: `@${loggedUser.user.username}`,
-              value: `${loggedUser.user.id}\nReactions: ${counts[key]}\n  `,
-              inline: true,
+        // Only add users above the threshold
+        if(counts[key] >= process.env.THRESHOLD) {
+
+          let loggedUser = message.channel.guild.members.cache.get(key);
+          
+          offendersList[i] = {
+                user: loggedUser.user,
+                reactions: counts[key],
           }
-        
+
+          i++;
+
+        }
+
+        totalReacts++;
+
       });
 
 
-      // Build the Embed Data for the log. 
-      const logEmbedData = {
-          color: '#47b582',
-          title: 'New Reaction Log',
-          author: {
-              name: botName,
-          },
-          description: `Reaction Log for ${message.content} posted to <#${message.channel.id}>`,
-          fields: inlineFields,
-          timestamp: new Date(),
-          footer: {
-              text: 'Contact @nhemps311 for help with this bot.',
-          }
-      };
+      // Only send messages if we have users in the offenders list.
+      if(offendersList.length >= 1) {
 
-      
-      // Send the log to the #reaction-spam-log channel.
-      const logChannel = client.channels.cache.get(process.env.LOG);
-      logChannel.send({ embed: logEmbedData });
+
+        // Build the Embed Data for the log. 
+        const logEmbedData = {
+            type: 'rich',
+            color: message.embeds[0].color,
+            title: 'Potential Spam Clicker(s) Found',
+            thumbnail: message.embeds[0].thumbnail,
+            description: `Reaction Log for ${message.content} posted to <#${message.channel.id}>`,
+            fields: [
+              {
+                name: 'Raid Location',
+                value: message.embeds[0].author.name,
+                inline: true,
+              },
+              {
+                name: 'Users Reacted',
+                value: totalReacts,
+                inline: true,
+              },
+              {
+                name: 'Spam Reactors',
+                value: offendersList.length,
+                inline: true,
+              },
+            ],
+            timestamp: new Date(),
+            footer: {
+              text: 'Spammers information to follow:',
+            }
+        };
+
+        
+        // Send the log to the #reaction-spam-log channel.
+        const logChannel = client.channels.cache.get(process.env.LOG);
+
+        // Send out the ping to manager. 
+        logChannel.send(`<@&${process.env.MANAGER}> potential spam clicking, see below:`);
+        
+        // drop in the embed card. 
+        logChannel.send({ embed: logEmbedData });
+
+        // Process each individual offenders.
+        offendersList.forEach( (offender, index)=> {
+          
+          // Send Messages to log
+          logChannel.send(`**@${offender.user.username} reacted ${offender.reactions} times.**`);
+          logChannel.send(offender.user.id);
+
+        });
+
+      }
 
 
     });
@@ -108,3 +166,4 @@ client.on('message', (message) => {
 
 
 client.login(process.env.TOKEN);
+

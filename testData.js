@@ -282,3 +282,226 @@ let guildCache = {
        avatar: 'af215024309320bb6772bda5cb0273aa',
        lastMessageID: '803477591977361430',
        lastMessageChannelID: '803476384336314409' } } }
+
+
+
+let embed = {
+  type: 'rich',
+  title: null,
+  description: null,
+  url: null,
+  color: 15761456,
+  timestamp: 1611898303446,
+  fields: [ [Object], [Object], [Object], [Object] ],
+  thumbnail: {
+    url: 'https://static.pokenav.app/images/pokemon-icons/png/128/244-entei.png?v=200',
+    proxyURL: 'https://images-ext-2.discordapp.net/external/XFkRjQY5BZ1Tdzm3OTVkHRXPwdz1KKM8HR3M1ZRKHUY/%3Fv%3D200/https/static.pokenav.app/images/pokemon-icons/png/128/244-entei.png',
+    height: 0,
+    width: 0
+  },
+  image: null,
+  video: null,
+  author: {
+    name: 'Avalon Playground',
+    url: undefined,
+    iconURL: 'https://static.pokenav.app/images/team-logos/png/128/unknown.png?v=200',
+    proxyIconURL: 'https://images-ext-2.discordapp.net/external/3NMF_ODjcDybMlgLxAAikrwl6yuMCxruUwxTVV-x_S4/%3Fv%3D200/https/static.pokenav.app/images/team-logos/png/128/unknown.png'
+  },
+  provider: null,
+  footer: {
+    text: 'To join, 👤 ; For invite, 🧧 ; To update, 🛠 ; ❌ to delete',
+    iconURL: 'https://static.pokenav.app/images/link/png/128/app-unlinked.png?v=200',
+    proxyIconURL: 'https://images-ext-2.discordapp.net/external/p4QHy3WypJ8GbOzImi1g56Rw8IL2p3dh2-kpmmkq2Us/%3Fv%3D200/https/static.pokenav.app/images/link/png/128/app-unlinked.png'
+  },
+  files: []
+}
+
+
+
+
+
+
+let roles =  {
+  cache: {
+    '801267957694726194': {
+      guild: [Guild],
+      id: '801267957694726194',
+      name: '@everyone',
+      color: 0,
+      hoist: false,
+      rawPosition: 0,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: false,
+      deleted: false
+    },
+    '802628584934080533': {
+      guild: [Guild],
+      id: '802628584934080533',
+      name: 'PokeNav',
+      color: 0,
+      hoist: false,
+      rawPosition: 13,
+      permissions: [Permissions],
+      managed: true,
+      mentionable: false,
+      deleted: false
+    },
+    '802628975699689482': {
+      guild: [Guild],
+      id: '802628975699689482',
+      name: 'raid-viewer',
+      color: 0,
+      hoist: false,
+      rawPosition: 12,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: false,
+      deleted: false
+    },
+    '802628976123445268': {
+      guild: [Guild],
+      id: '802628976123445268',
+      name: 'raid-moderator',
+      color: 0,
+      hoist: false,
+      rawPosition: 11,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: false,
+      deleted: false
+    },
+    '802629501220945990': {
+      guild: [Guild],
+      id: '802629501220945990',
+      name: 'badge-moderator',
+      color: 0,
+      hoist: false,
+      rawPosition: 10,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: false,
+      deleted: false
+    },
+    '802629501972250654': {
+      guild: [Guild],
+      id: '802629501972250654',
+      name: 'verified',
+      color: 0,
+      hoist: false,
+      rawPosition: 9,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: false,
+      deleted: false
+    },
+    '802629502315528202': {
+      guild: [Guild],
+      id: '802629502315528202',
+      name: 'mystic',
+      color: 92858,
+      hoist: false,
+      rawPosition: 8,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: false,
+      deleted: false
+    },
+    '802629502353276980': {
+      guild: [Guild],
+      id: '802629502353276980',
+      name: 'valor',
+      color: 13959183,
+      hoist: false,
+      rawPosition: 7,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: false,
+      deleted: false
+    },
+    '802629503012306944': {
+      guild: [Guild],
+      id: '802629503012306944',
+      name: 'instinct',
+      color: 15984384,
+      hoist: false,
+      rawPosition: 6,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: false,
+      deleted: false
+    },
+    '802629503745785866': {
+      guild: [Guild],
+      id: '802629503745785866',
+      name: 'research-moderator',
+      color: 0,
+      hoist: false,
+      rawPosition: 5,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: false,
+      deleted: false
+    },
+    '803366029627621417': {
+      guild: [Guild],
+      id: '803366029627621417',
+      name: 'Bots',
+      color: 5533306,
+      hoist: true,
+      rawPosition: 3,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: false,
+      deleted: false
+    },
+    '803366315246616578': {
+      guild: [Guild],
+      id: '803366315246616578',
+      name: 'Hoomans',
+      color: 15158332,
+      hoist: true,
+      rawPosition: 4,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: true,
+      deleted: false
+    },
+    '803368090947158056': {
+      guild: [Guild],
+      id: '803368090947158056',
+      name: 'carl-bot',
+      color: 0,
+      hoist: false,
+      rawPosition: 2,
+      permissions: [Permissions],
+      managed: true,
+      mentionable: false,
+      deleted: false
+    },
+    '804601700521738250': {
+      guild: [Guild],
+      id: '804601700521738250',
+      name: 'entei-avalon-playground-250',
+      color: 0,
+      hoist: false,
+      rawPosition: 1,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: true,
+      deleted: false
+    },
+    '804602414668972074': {
+      guild: [Guild],
+      id: '804602414668972074',
+      name: 'Fast Clicker',
+      color: 3066993,
+      hoist: true,
+      rawPosition: 14,
+      permissions: [Permissions],
+      managed: false,
+      mentionable: false,
+      deleted: false
+    }
+  }
+};
