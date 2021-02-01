@@ -24,18 +24,16 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 
+console.log(process.env.LOG);
 
 client.once('ready', () => {
   console.log('Ready!');
-
   
-
   client.user.setActivity('for Auto-Clickers.', { type: 'WATCHING' });
-  
+
   const logChannel = client.channels.cache.get(process.env.LOG);
   const botReadyMessage = new Discord.MessageEmbed().setTitle(`${botName} is online!`);
   logChannel.send({ embed: botReadyMessage });
-
 });
 
 
@@ -51,7 +49,7 @@ client.on('message', (message) => {
   {
 
     // Use Discord.js Colletor to watch the reactions. 
-    const filter = (reaction) => { return true };
+    const filter = () => { return true };
     const collector = message.createReactionCollector(filter, { time: 15000, dispose: true });
 
 
@@ -68,7 +66,7 @@ client.on('message', (message) => {
 
 
     // After the time expires on the reaction poll we process.
-    collector.on('end', collected => {
+    collector.on('end', () => {
 
       // Count up all of the reactions per user. 
       let counts = {};
@@ -81,7 +79,7 @@ client.on('message', (message) => {
       let totalReacts = 0;
 
       // Loop through the reactionsCollection
-      Object.keys(counts).map(function(key, index) {
+      Object.keys(counts).map(function(key) {
         
         // Only add users above the threshold
         if(counts[key] >= process.env.THRESHOLD) {
@@ -147,7 +145,7 @@ client.on('message', (message) => {
         logChannel.send({ embed: logEmbedData });
 
         // Process each individual offenders.
-        offendersList.forEach( (offender, index)=> {
+        offendersList.forEach( (offender)=> {
           
           // Send Messages to log
           logChannel.send(`**@${offender.user.username} reacted ${offender.reactions} times.**`);
