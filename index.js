@@ -107,7 +107,7 @@ client.on('message', (message) => {
         // Build the Embed Data for the log. 
         const logEmbedData = {
             type: 'rich',
-            color: message.embeds[0].color,
+            color: '#157613',
             title: 'Potential Spam Clicker(s) Found',
             thumbnail: message.embeds[0].thumbnail,
             description: `Reaction Log for ${message.content} posted to <#${message.channel.id}>`,
@@ -126,6 +126,11 @@ client.on('message', (message) => {
                 name: 'Spam Reactors',
                 value: offendersList.length,
                 inline: true,
+              },
+              {
+                name: 'MODERATOR NOTE:',
+                value: 'If you take action on any of the spammers, please react with a :thumbsup: on the users name so we know that user has been logged.',
+                inline: false,
               },
             ],
             timestamp: new Date(),
@@ -149,7 +154,11 @@ client.on('message', (message) => {
           
           // Send Messages to log
           logChannel.send(`**@${offender.user.username} reacted ${offender.reactions} times.**`);
-          logChannel.send(offender.user.id);
+          
+          setTimeout(function(){
+            logChannel.send(offender.user.id);
+          }, 100);
+          
 
         });
 
