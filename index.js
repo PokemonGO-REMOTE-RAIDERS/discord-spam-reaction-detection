@@ -9,24 +9,31 @@
  * 
  * 
  * Configuration File
- */
+**/
 const dotenv = require('dotenv');
+const Discord = require('discord.js');
+const Sequelize = require('sequelize');
+const client = new Discord.Client();
+
+
 dotenv.config();
 const botName = process.env.BOTNAME;
 
 
+const sequelize = new Sequelize('database', 'user', 'password', {
+	host: 'localhost',
+	dialect: 'mysql',
+	logging: false,
+});
+
 /**
  * 
- * Init Discord
+ * Start it up
  * 
- */
-const Discord = require('discord.js');
-const client = new Discord.Client();
-
-
-console.log(process.env.LOG);
-
+**/
+ 
 client.once('ready', () => {
+
   console.log('Ready!');
   
   client.user.setActivity('for Auto-Clickers.', { type: 'WATCHING' });
@@ -34,6 +41,7 @@ client.once('ready', () => {
   const logChannel = client.channels.cache.get(process.env.LOG);
   const botReadyMessage = new Discord.MessageEmbed().setTitle(`${botName} is online!`);
   logChannel.send({ embed: botReadyMessage });
+
 });
 
 
@@ -144,7 +152,7 @@ client.on('message', (message) => {
         const logChannel = client.channels.cache.get(process.env.LOG);
 
         // Send out the ping to manager. 
-        logChannel.send(`<@&${process.env.MANAGER}> potential spam clicking, see below:`);
+        //logChannel.send(`<@&${process.env.MANAGER}> potential spam clicking, see below:`);
         
         // drop in the embed card. 
         logChannel.send({ embed: logEmbedData });
@@ -157,6 +165,10 @@ client.on('message', (message) => {
           
           setTimeout(function(){
             logChannel.send(offender.user.id);
+          }, 100);
+
+          setTimeout(function(){
+            logChannel.send(`!setnote ${offender.user.id} User reacted ${offender.reactions} times on a raid.`);
           }, 100);
           
 
