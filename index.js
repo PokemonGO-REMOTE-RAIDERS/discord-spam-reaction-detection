@@ -1,7 +1,7 @@
 /**
  * 
  * Spam Reaction Detection
- * Version: 1.2.1
+ * Version: 1.2.2
  * 
  * Author: Nick Hempsey
  * Author URL: https://elementmarketingcompany.com
@@ -12,7 +12,7 @@
  */
 const dotenv = require('dotenv');
 dotenv.config();
-//const botName = process.env.BOTNAME;
+const botName = process.env.botname;
 
 
 /**
@@ -29,8 +29,8 @@ client.once('ready', () => {
 
 	client.user.setActivity('for Auto-Clickers.', { type: 'WATCHING' });
 
-	const logChannel = client.channels.cache.get(process.env.LOG);
-	logChannel.send(`**Reaction Bot v1.2.1 is online.**`);
+	const logChannel = client.channels.cache.get(process.env.logchannel);
+	logChannel.send(`**${botName} v1.2.2 is online.**`);
 
 });
 
@@ -42,7 +42,7 @@ client.on('message', (message) => {
 
 
 	// Only process PokeNav posts.   
-	if( message.author.username === 'PokeNav' && message.author.bot && process.env.GUILD === message.channel.guild.id )
+	if( message.author.username === 'PokeNav' && message.author.bot && process.env.guild === message.channel.guild.id )
 	{
 
 		// Use Discord.js Colletor to watch the reactions. 
@@ -79,7 +79,7 @@ client.on('message', (message) => {
 			Object.keys(counts).map(function(key) {
 
 			// Only add users above the threshold
-			if(counts[key] >= process.env.THRESHOLD) {
+			if(counts[key] >= process.env.threshold) {
 
 				let loggedUser = message.channel.guild.members.cache.get(key);
 
@@ -134,17 +134,17 @@ client.on('message', (message) => {
 
 		
 			// Send the log to the #reaction-spam-log channel.
-			const logChannel 		= client.channels.cache.get(process.env.LOG);
-			const fastClickerChannel = client.channels.cache.get(process.env.FASTCLICKER);
-			const punishment 		= message.channel.guild.roles.cache.find(role => role.name === 'reaction_punishment');
-			const verified 		= message.channel.guild.roles.cache.find(role => role.name === 'verified');
-			const mystic 			= message.channel.guild.roles.cache.find(role => role.name === 'mystic');
-			const instinct 		= message.channel.guild.roles.cache.find(role => role.name === 'instinct');
-			const valor 			= message.channel.guild.roles.cache.find(role => role.name === 'valor');
+			const logChannel 		= client.channels.cache.get(process.env.logchannel);
+			const fastClickerChannel = client.channels.cache.get(process.env.fastclickerchannel);
+			const punishment 		= message.channel.guild.roles.cache.find(role => role.name === process.env.punishment);
+			const verified 		= message.channel.guild.roles.cache.find(role => role.name === process.env.verified );
+			const mystic 			= message.channel.guild.roles.cache.find(role => role.name === process.env.mystic);
+			const instinct 		= message.channel.guild.roles.cache.find(role => role.name === process.env.instinct);
+			const valor 			= message.channel.guild.roles.cache.find(role => role.name === process.env.valor);
 			
 
 			// Send out the ping to manager. 
-			//logChannel.send(`<@&${process.env.MANAGER}> potential spam clicking, see below:`);
+			//logChannel.send(`<@&${process.env.managerrole}> potential spam clicking, see below:`);
 			
 			// drop in the embed card. 
 			logChannel.send({ embed: logEmbedData });
@@ -165,25 +165,28 @@ client.on('message', (message) => {
 					offender.member.roles.add(punishment);
 					console.log(`Added reaction punishment to ${offender.member.user.username}`);
 
+
 					// Remove Verified Role
-					offender.member.roles.remove(verified);
-					console.log(`Remove verified from ${offender.member.user.username}`);
+					if(offender.member.roles.cache.some(role => role.name === process.env.verified)) {
+						offender.member.roles.remove(verified);
+						console.log(`Remove verified from ${offender.member.user.username}`);
+					}
 					
 
 					// Remove from their team.
-					if(offender.member.roles.cache.some(role => role.name === 'mystic')) {
+					if(offender.member.roles.cache.some(role => role.name === process.env.mystic)) {
 						
 						offender.member.roles.remove(mystic);
 						userTeam = mystic;
 					}
 					
-					if(offender.member.roles.cache.some(role => role.name === 'instinct')) {
+					if(offender.member.roles.cache.some(role => role.name === process.env.instinct)) {
 						
 						offender.member.roles.remove(instinct);	
 						userTeam = instinct;
 					}
 					
-					if(offender.member.roles.cache.some(role => role.name === 'valor')) {
+					if(offender.member.roles.cache.some(role => role.name === process.env.valor)) {
 						
 						offender.member.roles.remove(valor);
 						userTeam = valor;	
@@ -197,12 +200,12 @@ client.on('message', (message) => {
 
 				// Message the spammer in the #fastclicker channel.
 				setTimeout(function(){
-					fastClickerChannel.send(`<@${offender.member.user.id}>, you're in timeout for ${process.env.TIMEOUT} minutes because you reacted **${offender.reactions} times** on that raid. If you don't have access after ${process.env.TIMEOUT} minutes, please let an @ manager know. *MANAGER NOTE: Team ${userTeam.name}*`);
+					fastClickerChannel.send(`<@${offender.member.user.id}>, you're in timeout for ${process.env.timeout} minutes because you reacted **${offender.reactions} times** on that raid. If you don't have access after ${process.env.timeout} minutes, please let an @ manager know. *MANAGER NOTE: Team ${userTeam.name}*`);
 				}, 3000);
 
 				
 				// Let them out of timeout. 
-				var timeout = process.env.TIMEOUT * 60 * 1000;
+				var timeout = process.env.timeout * 60 * 1000;
 				setTimeout(function(){
 					offender.member.roles.add(userTeam);
 					offender.member.roles.add(verified);
@@ -222,4 +225,4 @@ client.on('message', (message) => {
 });
 
 // Connect to Application
-client.login(process.env.TOKEN);
+client.login(process.env.token);
