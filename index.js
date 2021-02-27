@@ -1,7 +1,7 @@
 /**
  * 
  * Spam Reaction Detection
- * Version: 1.2
+ * Version: 1.2.1
  * 
  * Author: Nick Hempsey
  * Author URL: https://elementmarketingcompany.com
@@ -30,7 +30,7 @@ client.once('ready', () => {
 	client.user.setActivity('for Auto-Clickers.', { type: 'WATCHING' });
 
 	const logChannel = client.channels.cache.get(process.env.LOG);
-	logChannel.send(`**Reaction Bot v1.2 is online.**`);
+	logChannel.send(`**Reaction Bot v1.2.1 is online.**`);
 
 });
 
@@ -124,11 +124,6 @@ client.on('message', (message) => {
 						name: 'Spam Reactors',
 						value: offendersList.length,
 						inline: true,
-					},
-					{
-						name: 'MODERATOR NOTE:',
-						value: 'If you take action on any of the spammers, please react with a :thumbsup: on the users name so we know that user has been logged.',
-						inline: false,
 					},
 				],
 				timestamp: new Date(),
