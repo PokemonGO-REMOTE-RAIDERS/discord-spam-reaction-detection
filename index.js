@@ -12,7 +12,6 @@
  */
 const dotenv = require('dotenv');
 dotenv.config();
-const botName = process.env.botname;
 
 
 /**
@@ -28,9 +27,6 @@ client.once('ready', () => {
 	console.log('Ready!');
 
 	client.user.setActivity('for Auto-Clickers.', { type: 'WATCHING' });
-
-	const logChannel = client.channels.cache.get(process.env.logchannel);
-	logChannel.send(`**${botName} v1.2.2 is online.**`);
 
 });
 
