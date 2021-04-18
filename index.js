@@ -136,11 +136,10 @@ client.on('message', (message) => {
 			// Send the log to the #reaction-spam-log channel.
 			const logChannel 		= client.channels.cache.get(process.env.logchannel);
 			const fastClickerChannel = client.channels.cache.get(process.env.fastclickerchannel);
-			const punishment 		= message.channel.guild.roles.cache.find(role => role.name === process.env.punishment);
-			const verified 		= message.channel.guild.roles.cache.find(role => role.name === process.env.verified );
-			const mystic 			= message.channel.guild.roles.cache.find(role => role.name === process.env.mystic);
-			const instinct 		= message.channel.guild.roles.cache.find(role => role.name === process.env.instinct);
-			const valor 			= message.channel.guild.roles.cache.find(role => role.name === process.env.valor);
+			const punishment 		= message.channel.guild.roles.cache.find(role => role.id === process.env.punishment);
+			const pokenavVerified 	= message.channel.guild.roles.cache.find(role => role.id === process.env.pokenavVerified );
+			const altdentVerified 	= message.channel.guild.roles.cache.find(role => role.id === process.env.altdentVerified );
+			
 			
 
 			// Send out the ping to manager. 
@@ -167,31 +166,16 @@ client.on('message', (message) => {
 
 
 					// Remove Verified Role
-					if(offender.member.roles.cache.some(role => role.name === process.env.verified)) {
-						offender.member.roles.remove(verified);
-						console.log(`Remove verified from ${offender.member.user.username}`);
-					}
-					
-
-					// Remove from their team.
-					if(offender.member.roles.cache.some(role => role.name === process.env.mystic)) {
-						
-						offender.member.roles.remove(mystic);
-						userTeam = mystic;
-					}
-					
-					if(offender.member.roles.cache.some(role => role.name === process.env.instinct)) {
-						
-						offender.member.roles.remove(instinct);	
-						userTeam = instinct;
-					}
-					
-					if(offender.member.roles.cache.some(role => role.name === process.env.valor)) {
-						
-						offender.member.roles.remove(valor);
-						userTeam = valor;	
+					if(offender.member.roles.cache.some(role => role.id === process.env.pokenavVerified)) {
+						offender.member.roles.remove(pokenavVerified);
+						console.log(`Remove pokenavVerified from ${offender.member.user.username}`);
 					}
 
+					if(offender.member.roles.cache.some(role => role.id === process.env.altdentVerified)) {
+						offender.member.roles.remove(pokenavVerified);
+						console.log(`Remove altdentVerified from ${offender.member.user.username}`);
+					}
+					
 					console.log(`Removed ${userTeam.name} from ${offender.member.user.username}`);
 
 
@@ -207,8 +191,8 @@ client.on('message', (message) => {
 				// Let them out of timeout. 
 				var timeout = process.env.timeout * 60 * 1000;
 				setTimeout(function(){
-					offender.member.roles.add(userTeam);
-					offender.member.roles.add(verified);
+					offender.member.roles.add(altdentVerified);
+					offender.member.roles.add(pokenavVerified);
 					offender.member.roles.remove(punishment);
 
 					console.log(`Restored permissions to ${offender.member.user.username}`);
