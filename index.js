@@ -46,7 +46,7 @@ client.on('message', (message) => {
 	
 		// Use Discord.js Colletor to watch the reactions. 
 		const filter = () => { return true };
-		const collector = message.createReactionCollector(filter, { time: 10000, dispose: true });
+		const collector = message.createReactionCollector(filter, { time: 15000, dispose: true });
 
 
 		// We store all reactions in this array. 
