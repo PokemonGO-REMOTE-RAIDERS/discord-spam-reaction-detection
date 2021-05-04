@@ -68,7 +68,6 @@ client.on('message', (message) => {
 			let counts = {};
 			reactionsCollection.forEach((index) => counts[index] = (counts[index] || 0) + 1 );
 
-			console.log(reactionsCollection);
 			// Establish the offenders list. 
 			let offendersList = [];
 			let i = 0;
@@ -82,7 +81,6 @@ client.on('message', (message) => {
 
 				let loggedUser = message.channel.guild.members.cache.get(key);
 
-				//console.log(loggedUser);
 				offendersList[i] = {
 					member: loggedUser,
 					reactions: counts[key],
